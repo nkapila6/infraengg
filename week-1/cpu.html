@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>Class 1 Report — Prefill vs Decode</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+  h1 { border-bottom: 2px solid #333; }
+  table { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: right; }
+  th { background: #f0f0f0; }
+  td:first-child, th:first-child { text-align: left; }
+  .reflection { background: #fafafa; border-left: 4px solid #0066cc; padding: 1rem; }
+</style></head><body>
+<h1>Class 1: Prefill vs Decode</h1>
+<p><strong>Lab models:</strong> TinyLlama-1.1B (TinyLlama/TinyLlama-1.1B-Chat-v1.0), GPT-2 (gpt2)<br>
+<strong>Cost proxy:</strong> gpt-4o<br>
+<strong>Generated:</strong> 2026-08-24 11:10 UTC</p>
+<h2>Timing — side by side</h2>
+<h3>Prefill (s)</h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>GPT-2</th>
+      <th>TinyLlama-1.1B</th>
+    </tr>
+    <tr>
+      <th>prompt</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>short</th>
+      <td>0.1733</td>
+      <td>1.5848</td>
+    </tr>
+    <tr>
+      <th>long</th>
+      <td>0.7711</td>
+      <td>4.9626</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Decode (s)</h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>GPT-2</th>
+      <th>TinyLlama-1.1B</th>
+    </tr>
+    <tr>
+      <th>prompt</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>short</th>
+      <td>2.1108</td>
+      <td>9.0626</td>
+    </tr>
+    <tr>
+      <th>long</th>
+      <td>3.2609</td>
+      <td>11.6173</td>
+    </tr>
+  </tbody>
+</table>
+<h3>TTFT (s)</h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>GPT-2</th>
+      <th>TinyLlama-1.1B</th>
+    </tr>
+    <tr>
+      <th>prompt</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>short</th>
+      <td>0.2153</td>
+      <td>1.7947</td>
+    </tr>
+    <tr>
+      <th>long</th>
+      <td>0.8270</td>
+      <td>5.1554</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Decode tok/sec</h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>GPT-2</th>
+      <th>TinyLlama-1.1B</th>
+    </tr>
+    <tr>
+      <th>prompt</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>short</th>
+      <td>23.2134</td>
+      <td>5.4069</td>
+    </tr>
+    <tr>
+      <th>long</th>
+      <td>15.0267</td>
+      <td>4.2178</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Cost — side by side</h2>
+<h3>Input cost — prefill ($)</h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>GPT-2</th>
+      <th>TinyLlama-1.1B</th>
+    </tr>
+    <tr>
+      <th>prompt</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>short</th>
+      <td>$0.000043</td>
+      <td>$0.000082</td>
+    </tr>
+    <tr>
+      <th>long</th>
+      <td>$0.000362</td>
+      <td>$0.000423</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Output cost — decode ($)</h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>GPT-2</th>
+      <th>TinyLlama-1.1B</th>
+    </tr>
+    <tr>
+      <th>prompt</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>short</th>
+      <td>$0.000500</td>
+      <td>$0.000500</td>
+    </tr>
+    <tr>
+      <th>long</th>
+      <td>$0.000500</td>
+      <td>$0.000500</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Total cost ($)</h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>GPT-2</th>
+      <th>TinyLlama-1.1B</th>
+    </tr>
+    <tr>
+      <th>prompt</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>short</th>
+      <td>$0.000543</td>
+      <td>$0.000583</td>
+    </tr>
+    <tr>
+      <th>long</th>
+      <td>$0.000862</td>
+      <td>$0.000923</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>All runs (timing)</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Runtime</th>
+      <th>Model</th>
+      <th>Prompt</th>
+      <th>Prompt Tok</th>
+      <th>Prefill (s)</th>
+      <th>Decode (s)</th>
+      <th>TTFT (s)</th>
+      <th>Tok/sec</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CPU</td>
+      <td>TinyLlama-1.1B</td>
+      <td>short</td>
+      <td>33</td>
+      <td>1.5848</td>
+      <td>9.0626</td>
+      <td>1.7947</td>
+      <td>5.41</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <td>CPU</td>
+      <td>TinyLlama-1.1B</td>
+      <td>long</td>
+      <td>169</td>
+      <td>4.9626</td>
+      <td>11.6173</td>
+      <td>5.1554</td>
+      <td>4.22</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <td>CPU</td>
+      <td>GPT-2</td>
+      <td>short</td>
+      <td>17</td>
+      <td>0.1733</td>
+      <td>2.1108</td>
+      <td>0.2153</td>
+      <td>23.21</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <td>CPU</td>
+      <td>GPT-2</td>
+      <td>long</td>
+      <td>145</td>
+      <td>0.7711</td>
+      <td>3.2609</td>
+      <td>0.8270</td>
+      <td>15.03</td>
+      <td>OK</td>
+    </tr>
+  </tbody>
+</table>
+<h2>All runs (cost)</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Device</th>
+      <th>Model</th>
+      <th>Prompt</th>
+      <th>Input tok</th>
+      <th>Output tok</th>
+      <th>Input $</th>
+      <th>Output $</th>
+      <th>Total $</th>
+      <th>Output % of $</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CPU</td>
+      <td>TinyLlama-1.1B</td>
+      <td>short</td>
+      <td>33</td>
+      <td>50</td>
+      <td>0.000082</td>
+      <td>0.0005</td>
+      <td>0.000583</td>
+      <td>85.8</td>
+    </tr>
+    <tr>
+      <td>CPU</td>
+      <td>TinyLlama-1.1B</td>
+      <td>long</td>
+      <td>169</td>
+      <td>50</td>
+      <td>0.000423</td>
+      <td>0.0005</td>
+      <td>0.000923</td>
+      <td>54.2</td>
+    </tr>
+    <tr>
+      <td>CPU</td>
+      <td>GPT-2</td>
+      <td>short</td>
+      <td>17</td>
+      <td>50</td>
+      <td>0.000043</td>
+      <td>0.0005</td>
+      <td>0.000543</td>
+      <td>92.2</td>
+    </tr>
+    <tr>
+      <td>CPU</td>
+      <td>GPT-2</td>
+      <td>long</td>
+      <td>145</td>
+      <td>50</td>
+      <td>0.000362</td>
+      <td>0.0005</td>
+      <td>0.000862</td>
+      <td>58.0</td>
+    </tr>
+  </tbody>
+</table>
+<h2>Reflection</h2>
+<div class="reflection"><pre style="white-space: pre-wrap; margin:0;">Runtime I tested: T4 GPU
+
+TinyLlama vs GPT-2:
+T4GPU'
+
+What surprised me about prefill vs decode?
+fdf;l</pre></div>
+</body></html>
